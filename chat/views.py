@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.utils.safestring import mark_safe
+from django.views import View
 import json
 
 def index(request):
