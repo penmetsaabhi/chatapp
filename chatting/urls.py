@@ -22,7 +22,9 @@ from chat import views
 urlpatterns = [
     url('admin/', admin.site.urls),
     path('chat/', include(urls)),
-    path('login',views.login,name="login")
+    path('login/',views.loginView.as_view(),name="login"),
+    path('signup/',views.signupView.as_view(),name="Signup"),
+    path('logout/',views.log_out,name="logout")
 ]
 if settings.DEBUG:
     import debug_toolbar
