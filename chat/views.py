@@ -14,7 +14,7 @@ def index(request):
 def room(request, id1):
     return render(request, 'chat/room2.html', {
         'room_name_json': mark_safe(json.dumps(id1)),
-        'username':request.user.username
+        'username':mark_safe(json.dumps(request.user.username))
     })
 def log_out(request):
     logout(request)
