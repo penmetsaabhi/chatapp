@@ -4,5 +4,6 @@ from chat import views
 from django.urls import include, path
 urlpatterns = [
     path('', views.index, name='chat'),
-    path('<str:id1>/',views.room,name="room")
+    path('<str:id1>/',views.room,name="room"),
+    path('profile/<str:id1>/',views.profileView.as_view(),name="profile")
 ]

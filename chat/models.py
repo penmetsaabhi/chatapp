@@ -13,3 +13,8 @@ class Message(models.Model):
 
     def last_10_messages():
         return Message.objects.order_by('-timestamp')[:10]
+
+
+class USERIMAGE(models.Model):
+    user = models.ForeignKey(user,related_name="author_media",on_delete=models.CASCADE)
+    usr_Img = models.ImageField(upload_to='images/')

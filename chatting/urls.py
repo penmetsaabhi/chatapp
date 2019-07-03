@@ -19,6 +19,7 @@ from chat import urls
 from . import  settings
 from django.urls import include, path
 from chat import views
+from django.conf.urls.static import static
 urlpatterns = [
     url('admin/', admin.site.urls),
     path('chat/', include(urls)),
@@ -35,3 +36,6 @@ if settings.DEBUG:
         # url(r'^__debug__/', include(debug_toolbar.urls)),
 
     ] + urlpatterns
+if settings.DEBUG:
+        urlpatterns += static(settings.MEDIA_URL,
+                              document_root=settings.MEDIA_ROOT)

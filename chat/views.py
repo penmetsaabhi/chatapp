@@ -6,15 +6,23 @@ from chat.forms import loginforms
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.models import User
 from django.contrib import messages
+from chat.models import USERIMAGE
+from chat import urls
 import json
 
 def index(request):
     return render(request, 'chat/index.html', {})
 
 def room(request, id1):
+    try:
+        image=USERIMAGE.objects.all().filter(user=User.objects.get(username=request.user.username)).order_by('-id')[0]
+    except IndexError:
+        image=None
     return render(request, 'chat/room2.html', {
         'room_name_json': mark_safe(json.dumps(id1)),
-        'username':mark_safe(json.dumps(request.user.username))
+        'username': mark_safe(json.dumps(request.user.username)),
+        'usernameDIS': request.user.username,
+        'image':image
     })
 def log_out(request):
     logout(request)
@@ -59,3 +67,23 @@ class signupView(View):
         else:
             messages.error(request,'Invalid credintials')
             return redirect("Signup")
+class profileView(View):
+    def get(self,request,*arg,**kwargs):
+        userform=loginforms.imageFORM()
+        return render(
+            request,
+            template_name='chat/profile.html',
+            context={
+                'profile':userform,
+                'username':request.user.username
+            }
+        )
+    def post(self,request,*arg,**kwargs):
+        form=loginforms.imageFORM(request.POST,request.FILES)
+        if(form.is_valid()):
+            form=form.save(commit=False)
+            form.user=User.objects.get(username=request.user.username)
+            form.save()
+            return redirect('chat')
+        else:
+            return redirect('profile',kwargs["id1"])

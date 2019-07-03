@@ -1,7 +1,7 @@
 # chat/consumers.py
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
-from .models import  Message
+from .models import  Message,USERIMAGE
 from django.contrib.auth.models import User
 import json
 
@@ -10,22 +10,29 @@ class ChatConsumer(WebsocketConsumer):
         message=Message.last_10_messages()
         context={
             'command' : 'messages',
-            'messages' : self.make_messages_to_json(message)
+            'messages' : self.make_messages_to_json(message),
         }
         self.send_message(context)
     def new_message(self,context):
         author=context['from']
         user=User.objects.get(username=author)
-        message=Message.objects.create(
+        try:
+            userimg = USERIMAGE.objects.all().filter(user=user).order_by('-id')[0]
+        except IndexError:
+            userimg = None
+        print(userimg)
+        if(context['message']!=""):
+            message=Message.objects.create(
             author=user,
             context=context['message']
         )
-        content={
+            content={
             'command':'new_message',
-            'message':self.make_message_to_json(message)
+            'message':self.make_message_to_json(message),
+            'img':str(userimg.usr_Img.url),
 
         }
-        return self.send_chat_message(content)
+            return self.send_chat_message(content)
     commands={
         'fetch_messages':fetch_messages,
         'new_message':new_message
@@ -68,6 +75,7 @@ class ChatConsumer(WebsocketConsumer):
         self.commands[data['command']](self,data)
     def send_chat_message(self,message):
         # Send message to room group
+
         async_to_sync(self.channel_layer.group_send)(
             self.room_group_name,
             {

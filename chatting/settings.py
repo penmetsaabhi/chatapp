@@ -25,7 +25,7 @@ SECRET_KEY = '^m+rz(0+!h69m+x#k9upykgtz^=(4w#o6g8tar6%bskqlz%%%y'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['172.31.98.87','127.0.0.1']
 
 INTERNAL_IPS = [
     # ...
@@ -139,3 +139,5 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS=[
     os.path.join(BASE_DIR,'chat/static')
 ]
+MEDIA_ROOT =  os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'

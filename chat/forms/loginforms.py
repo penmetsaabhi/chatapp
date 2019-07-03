@@ -1,4 +1,5 @@
 from django import  forms
+from chat.models import USERIMAGE
 class loginForm(forms.Form):
     username=forms.CharField(
         required=True,
@@ -25,3 +26,9 @@ class signupForm(forms.Form):
         required=True,
         widget=forms.PasswordInput(attrs={'class':'input100' ,'type':"password" ,'name':"pass" ,'placeholder':"Password"})
     )
+
+class imageFORM(forms.ModelForm):
+    class Meta:
+        model = USERIMAGE
+        exclude=['user']
+        fields = ['usr_Img']
