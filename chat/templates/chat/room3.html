@@ -66,12 +66,12 @@ Website: http://emilcarlsson.se/
 		<div id="contacts">
 			<ul>
 				{% for user in users %}
-				<li style="margin:10px;" class="contact" onclick="location.href='{% url 'room' user.roomname %}';">
+				<li style="margin:10px;" class="contact">
 					<div class="wrap">
 						<img src="/media/{{ user.image }}" alt="" />
 						<div class="meta">
 							<p class="name">{{user.user}}</p>
-							<p class="preview">You just got LITT up, Mike.</p>
+							<p class="preview">Fuck what is happening</p>
 						</div>
 					</div>
 				</li>
@@ -85,8 +85,8 @@ Website: http://emilcarlsson.se/
 	</div>
 	<div class="content">
 		<div class="contact-profile">
-			<img src="/media/{{ otherUser.image }}" alt="" />
-			<p>{{otherUser.user}}</p>
+			<img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />
+			<p>{{usernameDIS}}</p>
 			<div class="social-media">
 				<i class="fa fa-facebook" aria-hidden="true"></i>
 				<i class="fa fa-twitter" aria-hidden="true"></i>
